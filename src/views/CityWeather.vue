@@ -1,9 +1,12 @@
 <template>
 	<div class="city-weather">
-		<p v-if="!isCityValid">City not found</p>
+		<div class="city-weather__form-wrapper">
+			<WeatherForm />
+		</div>
+		<p v-if="error">City not found</p>
 		<div v-else-if="!cityWeather">Loading...</div>
 		<div v-else>
-			<h3 class="city-weather__header">Weather in {{ cityWeather ? cityWeather.name : '' }}</h3>
+			<h3 class="city-weather__header">Weather in {{ cityWeather.name }}</h3>
 			<p class="city-weather__temp">Temperature: {{ tempInCelsius }}&#176;C</p>
 			<table class="city-weather__table" border='1'>
 				<tr>
@@ -28,38 +31,36 @@
 </template>
 
 <script>
+import WeatherForm from '../components/WeatherForm';
+
 export default {
-	data() {
-		return {
-			cityWeather: '',
-			isCityValid: true
-		}
+	components: {
+		WeatherForm
 	},
 	mounted() {
-		fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.$route.params.city}&appid=ae022e0a1551eb3e2833113e3d2da947`)
-			.then(response => response.json())
-			.then(weather => {
-				if (weather.cod === 200) {
-					this.cityWeather = weather;
-				} else {
-					this.isCityValid = false;
-				}
-				})
-			.catch(error => {
-				console.log(error);
-			})
+		this.$store.dispatch('fetchNewWeather', this.$route.params.city);
 	},
 	computed: {
+		cityWeather() {
+			return this.$store.state.cityWeather;
+		},
 		tempInCelsius() {
 			const KALVIN_TO_CELSIUS = 273.15;
 			return (this.cityWeather.main.temp - KALVIN_TO_CELSIUS).toFixed(1);
 		},
 		sunrise() {
-			const time = new Date(this.cityWeather.sys.sunrise);
-			return `${time.getHours()}:${time.getMinutes()}`;
+			return this.formatTime(this.cityWeather.sys.sunrise);
 		},
 		sunset() {
-			const time = new Date(this.cityWeather.sys.sunset);
+			return this.formatTime(this.cityWeather.sys.sunset);
+		},
+		error() {
+			return this.$store.state.error;
+		}
+	},
+	methods: {
+		formatTime(ms) {
+			const time = new Date(ms);
 			return `${time.getHours()}:${time.getMinutes()}`;
 		}
 	}
@@ -69,6 +70,11 @@ export default {
 <style>
 .city-weather {
 	padding: 10px;
+}
+.city-weather__form-wrapper {
+	width: 400px;
+	margin: 0 auto;
+	margin-bottom: 40px;
 }
 .city-weather__header {
 	text-align: center;

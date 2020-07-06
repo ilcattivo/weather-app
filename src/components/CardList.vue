@@ -1,11 +1,13 @@
 <template>
   <div class="card-list">
       <p v-if="!list.length">There will be results...</p>
-      <div v-else class="card-list__list" v-for="item of list" :key="item.id">
-        <router-link :to="`weather/${item.name}`">
-          <Card :item="item" />
-        </router-link>
-      </div>
+      <ul v-else class="card-list__list">
+        <li v-for="(item, index) of list" :key="index" class="card-list__item">
+          <router-link :to="`weather/${item.name}`">
+            <Card :item="item" />
+          </router-link>
+        </li>
+      </ul>
   </div>
 </template>
 
@@ -20,7 +22,11 @@ export default {
 </script>
 
 <style>
-.card-list__list > * {
+.card-list__list {
+  list-style: none;
+  padding-left: 0;
+}
+.card-list__item {
   margin-bottom: 10px;
 }
 </style>
