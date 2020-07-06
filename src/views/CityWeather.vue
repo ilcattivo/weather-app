@@ -68,17 +68,17 @@ export default {
 
 <style>
 .city-weather {
-    padding: 10px;
+	padding: 10px;
 }
 .city-weather__header {
-    text-align: center;
+	text-align: center;
 }
 .city-weather__temp {
-    text-align: center;
+	text-align: center;
 }
 .city-weather__table {
-    border-collapse: collapse;
-    width: 50%;
-    margin: 0 auto;
+	border-collapse: collapse;
+	width: 50%;
+	margin: 0 auto;
 }
 </style>
