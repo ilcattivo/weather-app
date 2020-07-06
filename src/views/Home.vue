@@ -4,39 +4,66 @@
     <WeatherForm :page="'home'" />
     <div class="app__card-list">
       <h3 class="app__subheader">Searching History</h3>
-      <CardList :list="weatherHistory" />
+      <div class="btn-group app__buttons" role="group" aria-label="Basic example">
+        <button @click="setSort('dt')" type="button" class="btn btn-secondary">Latest</button>
+        <button @click="setSort('temp')" type="button" class="btn btn-secondary">Highest &#176;C</button>
+        <button @click="setSort('name')" type="button" class="btn btn-secondary">Name</button>
+      </div>
+      <CardList :list="getWeatherList()" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import WeatherForm from '../components/WeatherForm';
 import CardList from '../components/CardList';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      sortWeatherBy: 'name'
+    }
+  },
   components: {
     WeatherForm,
     CardList
   },
-  computed: mapState(['weatherHistory'])
+  methods: {
+    getWeatherList() {
+      return this.getSortedWeatherHistory(this.sortWeatherBy);
+    },
+    setSort(sortBy) {
+      this.sortWeatherBy = sortBy;
+    }
+  },
+  computed: mapGetters(['getSortedWeatherHistory']),
+  mounted() {
+    // console.log(this.getWeatherList())
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
 .app {
   width: 400px;
   margin: 0 auto;
   margin-top: 100px;
-}
-.app__header {
-  font-size: 1.6rem;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.app__subheader {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
+
+  &__header {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  &__subheader {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  &__buttons {
+    margin-bottom: 10px;
+  }
 }
 </style>

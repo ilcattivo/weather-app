@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import WeatherForm from '../components/WeatherForm';
 
 export default {
@@ -41,9 +42,7 @@ export default {
 		this.$store.dispatch('fetchNewWeather', this.$route.params.city);
 	},
 	computed: {
-		cityWeather() {
-			return this.$store.state.cityWeather;
-		},
+		...mapGetters(['cityWeather']),
 		tempInCelsius() {
 			const KALVIN_TO_CELSIUS = 273.15;
 			return (this.cityWeather.main.temp - KALVIN_TO_CELSIUS).toFixed(1);
@@ -67,24 +66,28 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .city-weather {
 	padding: 10px;
-}
-.city-weather__form-wrapper {
-	width: 400px;
-	margin: 0 auto;
-	margin-bottom: 40px;
-}
-.city-weather__header {
-	text-align: center;
-}
-.city-weather__temp {
-	text-align: center;
-}
-.city-weather__table {
-	border-collapse: collapse;
-	width: 50%;
-	margin: 0 auto;
+
+	&__form-wrapper {
+		width: 400px;
+		margin: 0 auto;
+		margin-bottom: 40px;
+	}
+
+	&__header {
+		text-align: center;
+	}
+
+	&__temp {
+		text-align: center;
+	}
+
+	&__table {
+		border-collapse: collapse;
+		width: 50%;
+		margin: 0 auto;
+	}
 }
 </style>

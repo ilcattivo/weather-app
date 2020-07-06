@@ -18,20 +18,22 @@ export default {
 	computed: {
 		tempInCelsius() {
 			const KALVIN_TO_CELSIUS = 273.15;
-			return (this.item.main.temp - KALVIN_TO_CELSIUS).toFixed(1);
+			return (this.item.temp - KALVIN_TO_CELSIUS).toFixed(1);
 		}
 	}
 }
 </script>
 
-<style>
+<style lang="scss">
 .card {
-    padding: 10px;
-}
-.card__header {
-    text-align: center;
-}
-.card__temp {
-    text-align: center;
+	padding: 10px;
+
+	&__header {
+		text-align: center;
+	}
+
+	&__temp {
+		text-align: center;
+	}
 }
 </style>
