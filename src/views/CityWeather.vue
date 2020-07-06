@@ -4,7 +4,7 @@
 		<div v-else-if="!cityWeather">Loading...</div>
 		<div v-else>
 			<h3 class="city-weather__header">Weather in {{ cityWeather ? cityWeather.name : '' }}</h3>
-			<p class="city-weather__temp">Temp: {{ tempInCelsius }}&#176;C</p>
+			<p class="city-weather__temp">Temperature: {{ tempInCelsius }}&#176;C</p>
 			<table class="city-weather__table" border='1'>
 				<tr>
 					<td>Pressure</td>

@@ -1,4 +1,4 @@
-# currency-conventer
+# Weather app
 
 ## Project setup
 ```
