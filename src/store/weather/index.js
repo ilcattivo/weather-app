@@ -36,12 +36,16 @@ export default {
   },
   getters: {
     getSortedWeatherHistory: state => field => {
-      // name in ascending order, other in descending
-      if (field === 'name') {
+      if (field === 'dt') {
         return state.weatherHistory;
-      }
+      };
       return state.weatherHistory.slice().sort((weatherA, weatherB) => {
-        return weatherA[field] < weatherB[field] ? 1 : -1;
+        // name in ascending order, other in descending
+        if (field === 'temp') {
+          return weatherA.temp < weatherB.temp ? 1 : -1;
+        } else {
+          return weatherA.name > weatherB.name ? 1 : -1;
+        }
       })
     },
     cityWeather: state => state.cityWeather
