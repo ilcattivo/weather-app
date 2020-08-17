@@ -77,6 +77,7 @@ export default {
   data() {
     return {
       sortWeatherBy: 'dt',
+      sortOrder: 'descent',
       filterName: '',
       filterTemp: -999
     }
@@ -90,7 +91,14 @@ export default {
       return this.getSortedWeatherHistory(this.sortWeatherBy);
     },
     setSort(sortBy) {
-      this.sortWeatherBy = sortBy;
+      // console.log(sortBy)
+      if (this.sortWeatherBy === sortBy) {
+        // console.log(sortBy)
+        this.sortOrder = this.sortOrder === 'ascent' ? 'descent' : 'ascent';
+      } else {
+        this.sortWeatherBy = sortBy;
+        this.sortOrder = 'descent';
+      }
     },
     setFilterTemp(temp) {
       this.filterTemp = temp;
@@ -110,8 +118,9 @@ export default {
   computed: {
     ...mapGetters(['getSortedWeatherHistory']),
     filteredList() {
-      const { sortWeatherBy, filterByName, filterByTemp } = this;
-      const weatherArr = this.getSortedWeatherHistory(sortWeatherBy);
+      const { sortWeatherBy, filterByName, filterByTemp, sortOrder } = this;
+      const weatherArr = this.getSortedWeatherHistory(sortWeatherBy, sortOrder);
+
       return filterByTemp(
         filterByName(weatherArr)
       );
