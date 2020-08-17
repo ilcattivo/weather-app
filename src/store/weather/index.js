@@ -6,6 +6,20 @@ export default {
     cityWeather: null,
     weatherError: false,
   },
+
+  getters: {
+    getSortedWeatherHistory: state => (field, order) => {
+      return state.weatherHistory.slice().sort((weatherA, weatherB) => {
+        if (order === 'descent') {
+          return weatherA[field] < weatherB[field] ? 1 : -1;
+        } else {
+          return weatherA[field] > weatherB[field] ? 1 : -1;
+        }
+      });
+    },
+    cityWeather: state => state.cityWeather,
+  },
+
   mutations: {
     ADD_TO_HISTORY(state, weather) {
       state.weatherHistory.unshift(weather);
@@ -20,6 +34,7 @@ export default {
       state.weatherError = false;
     },
   },
+
   actions: {
     async fetchNewWeather({ commit, state }, city) {
       const weather = await WeatherService.fetchWeather(city);
@@ -34,24 +49,4 @@ export default {
       }
     },
   },
-  getters: {
-    getSortedWeatherHistory: state => (field, order) => {
-      // if (field === 'dt') {
-      //   return state.weatherHistory;
-      // }
-      return state.weatherHistory.slice().sort((weatherA, weatherB) => {
-        if (order === 'descent') {
-          return weatherA[field] < weatherB[field] ? 1 : -1;
-        } else {
-          return weatherA[field] > weatherB[field] ? 1 : -1;
-        }
-      });
-    },
-    cityWeather: state => state.cityWeather,
-  },
-};
-
-const helloYeah   = name => {
-name = 'you' ||name;
-  console.log('hello' + name + '!');
 };
