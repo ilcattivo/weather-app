@@ -1,37 +1,56 @@
 <template>
   <div class="card">
-		<h3 class="card__header">Weather in {{ item.name }}</h3>
+		<h3 class="card__header">Weather in {{item.name}}</h3>
 		<div>
-			<p class="card__temp">Temp: {{ tempInCelsius }}&#176;C</p>
+			<p class="card__temp">Temp: {{temp}}</p>
 		</div>
   </div>
 </template>
 
 <script>
 export default {
+	data() {
+		return {
+			tempUnit: 'C',
+		};
+	},
 	props: {
 		item: {
 			required: true,
-			type: Object
-		}
+			type: Object,
+		},
+	},
+	methods: {
+		convertTemp() {
+			const { temp } = this.item;
+
+			if (this.tempUnit === 'K') {
+				return temp.toFixed(1);
+			}
+
+			const KALVIN_TO_CELSIUS = 273.15;
+			return (temp - KALVIN_TO_CELSIUS).toFixed(1);
+		},
 	},
 	computed: {
-		tempInCelsius() {
-			const KALVIN_TO_CELSIUS = 273.15;
-			return (this.item.main.temp - KALVIN_TO_CELSIUS).toFixed(1);
-		}
-	}
-}
+		temp() {
+			const temp = this.convertTemp();
+			return `${temp}° ${this.tempUnit}`;
+		},
+	},
+};
 </script>
 
-<style>
+<style lang="scss">
 .card {
-    padding: 10px;
-}
-.card__header {
-    text-align: center;
-}
-.card__temp {
-    text-align: center;
+	padding: 10px;
+
+	&__header {
+		text-align: center;
+	}
+
+	&__temp {
+		text-align: center;
+	}
 }
 </style>

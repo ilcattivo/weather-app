@@ -21,12 +21,15 @@ export default {
 }
 </script>
 
-<style>
-.card-list__list {
-  list-style: none;
-  padding-left: 0;
-}
-.card-list__item {
-  margin-bottom: 10px;
+<style lang="scss">
+.card-list {
+  &__list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  &__item {
+    margin-bottom: 10px;
+  }
 }
 </style>

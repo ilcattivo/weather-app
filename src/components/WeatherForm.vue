@@ -6,6 +6,7 @@
             type="text"
             class="form-control"
             :class="{ 'is-invalid': error }"
+            placeholder="Enter a city name"
             v-model="city"
           />
           <div v-if="error" class="invalid-feedback">
@@ -38,7 +39,7 @@ export default {
   },
   computed: {
     error() {
-      return this.$store.state.error;
+      return this.$store.state.weatherError;
     }
   }
 }
